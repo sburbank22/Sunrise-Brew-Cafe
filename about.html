@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn about Sunrise Brew Café's story, our passion for quality coffee, and our commitment to the community.">
+  <title>About Us | Sunrise Brew Café</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo">Sunrise <span>Brew</span></a>
+      <div class="nav-toggle" onclick="toggleNav()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <nav>
+        <ul id="nav-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html" class="active">About</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-header">
+      <h1>Our Story</h1>
+      <p>From a dream to your favorite neighborhood café</p>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="about-content">
+          <div class="about-text">
+            <h2>A Passion for Great Coffee</h2>
+            <p>Sunrise Brew Café began in 2018 when founders Maya and David Chen decided to create a space where quality coffee meets genuine hospitality. After years of traveling and experiencing coffee cultures around the world, they brought their vision to Oakwood Heights.</p>
+            <p>What started as a small corner shop has grown into a beloved community gathering place. We've stayed true to our original mission: serving exceptional coffee while creating a welcoming environment for everyone who walks through our doors.</p>
+            <p>Every cup we serve reflects our commitment to craftsmanship. We source our beans directly from family farms in Ethiopia, Colombia, and Guatemala, ensuring fair compensation for growers and the highest quality for you.</p>
+          </div>
+          <div class="about-image">
+            <img src="images/about.jpg" alt="Sunrise Brew Café interior with warm lighting and cozy seating">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>What We Stand For</h2>
+          <p>Our values guide everything we do, from bean selection to customer service.</p>
+        </div>
+        <div class="values-grid">
+          <div class="value-item">
+            <div class="card-icon">🌍</div>
+            <h4>Sustainability</h4>
+            <p>We use compostable packaging, partner with eco-conscious suppliers, and minimize waste throughout our operations.</p>
+          </div>
+          <div class="value-item">
+            <div class="card-icon">🤝</div>
+            <h4>Community</h4>
+            <p>From hosting local artists to supporting neighborhood initiatives, we're invested in making Oakwood Heights thrive.</p>
+          </div>
+          <div class="value-item">
+            <div class="card-icon">✨</div>
+            <h4>Quality</h4>
+            <p>We never compromise on ingredients or preparation. Every drink and pastry meets our exacting standards.</p>
+          </div>
+          <div class="value-item">
+            <div class="card-icon">❤️</div>
+            <h4>Warmth</h4>
+            <p>Whether you're a regular or visiting for the first time, you'll feel welcome and valued at Sunrise Brew.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Meet Our Team</h2>
+          <p>The passionate people behind your perfect cup</p>
+        </div>
+        <div class="team-grid">
+          <div class="team-card">
+            <h3>Maya Chen</h3>
+            <p class="role">Co-Founder & Head Roaster</p>
+            <p>Maya trained with master roasters in Seattle and brings her expertise to every batch. She oversees our roasting program and supplier relationships.</p>
+          </div>
+          <div class="team-card">
+            <h3>David Chen</h3>
+            <p class="role">Co-Founder & Operations</p>
+            <p>David manages the day-to-day operations and ensures every visit exceeds expectations. His background in hospitality shapes our service culture.</p>
+          </div>
+          <div class="team-card">
+            <h3>Sofia Martinez</h3>
+            <p class="role">Head Baker</p>
+            <p>Sofia brings fifteen years of pastry experience to our kitchen. Her croissants and seasonal creations have earned a devoted following.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Sunrise Brew Café</h4>
+        <p>Serving the community with exceptional coffee and warm hospitality since 2018.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="menu.html">Menu</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-section">
+        <h4>Hours</h4>
+        <p>Mon-Fri: 6AM - 8PM</p>
+        <p>Sat-Sun: 7AM - 9PM</p>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <p>742 Morning Light Avenue</p>
+        <p>Oakwood Heights, CA 94123</p>
+        <p>(555) 234-5678</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Sunrise Brew Café. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleNav() {
+      document.getElementById('nav-menu').classList.toggle('active');
+    }
+  </script>
+</body>
+</html>

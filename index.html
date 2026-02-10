@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sunrise Brew Café - Artisan coffee and fresh pastries in a warm, welcoming atmosphere. Start your day with us.">
+  <title>Sunrise Brew Café | Artisan Coffee & Fresh Pastries</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo">Sunrise <span>Brew</span></a>
+      <div class="nav-toggle" onclick="toggleNav()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <nav>
+        <ul id="nav-menu">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Wake Up to Something Wonderful</h1>
+        <p>Handcrafted coffee, fresh pastries, and a warm atmosphere to start your day right. Every cup tells a story of carefully sourced beans and passionate baristas.</p>
+        <a href="menu.html" class="btn btn-primary">View Our Menu</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Why Choose Sunrise Brew?</h2>
+          <p>We believe great coffee is more than just a drink—it's an experience that brings people together.</p>
+        </div>
+        <div class="cards-grid">
+          <div class="card">
+            <div class="card-icon">☕</div>
+            <h3>Artisan Roasted</h3>
+            <p>Our beans are carefully selected from sustainable farms and roasted in small batches to bring out their unique flavors and aromas.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🥐</div>
+            <h3>Fresh Daily</h3>
+            <p>Every morning, our bakers prepare croissants, muffins, and seasonal treats using traditional recipes and quality ingredients.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🌱</div>
+            <h3>Locally Sourced</h3>
+            <p>We partner with local farms and producers to bring you the freshest ingredients while supporting our community.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Visit Us Today</h2>
+          <p>Whether you're grabbing a quick espresso or settling in for a relaxed afternoon, we have a spot waiting for you.</p>
+        </div>
+        <div class="cards-grid">
+          <div class="card">
+            <h3>Hours</h3>
+            <p>Monday - Friday: 6:00 AM - 8:00 PM</p>
+            <p>Saturday - Sunday: 7:00 AM - 9:00 PM</p>
+          </div>
+          <div class="card">
+            <h3>Location</h3>
+            <p>742 Morning Light Avenue</p>
+            <p>Oakwood Heights, CA 94123</p>
+          </div>
+          <div class="card">
+            <h3>Contact</h3>
+            <p>Phone: (555) 234-5678</p>
+            <p>Email: hello@sunrisebrew.cafe</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Sunrise Brew Café</h4>
+        <p>Serving the community with exceptional coffee and warm hospitality since 2018.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="menu.html">Menu</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-section">
+        <h4>Hours</h4>
+        <p>Mon-Fri: 6AM - 8PM</p>
+        <p>Sat-Sun: 7AM - 9PM</p>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <p>742 Morning Light Avenue</p>
+        <p>Oakwood Heights, CA 94123</p>
+        <p>(555) 234-5678</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Sunrise Brew Café. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleNav() {
+      document.getElementById('nav-menu').classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
