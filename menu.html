@@ -318,12 +318,12 @@
       author.textContent = '';
 
       try {
-        const res  = await fetch('https://api.quotable.io/random');
+        const res  = await fetch('https://zenquotes.io/api/random');
         if (!res.ok) throw new Error('Request failed');
         const data = await res.json();
         box.className      = 'quote-box quote-box--loaded';
-        text.textContent   = '\u201C' + data.content + '\u201D';
-        author.textContent = '\u2014 ' + data.author;
+        text.textContent   = '\u201C' + data[0].q + '\u201D';
+        author.textContent = '\u2014 ' + data[0].a;
       } catch (err) {
         box.className      = 'quote-box quote-box--error';
         text.textContent   = 'Could not load a quote right now. Please try again.';
