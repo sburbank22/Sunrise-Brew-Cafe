@@ -1,11 +1,27 @@
 exports.handler = async function (event) {
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+    return {
+      statusCode: 405,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Method Not Allowed' }),
+    };
   }
 
-  const { drinkName, ingredients, vibe } = JSON.parse(event.body);
+  try {
+    // 1. Validate API key presence before doing any work
+    if (!process.env.ANTHROPIC_API_KEY) {
+      console.error('generate-description: ANTHROPIC_API_KEY is not set');
+      return {
+        statusCode: 500,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ error: 'Server configuration error: ANTHROPIC_API_KEY is missing.' }),
+      };
+    }
 
-  const prompt = `You write short, warm, polished menu descriptions for Sunrise Brew Café — a cozy artisan coffee shop in Oakwood Heights, CA, open since 2018.
+    // 2. Parse request body
+    const { drinkName, ingredients, vibe } = JSON.parse(event.body);
+
+    const prompt = `You write short, warm, polished menu descriptions for Sunrise Brew Café — a cozy artisan coffee shop in Oakwood Heights, CA, open since 2018.
 
 Our existing menu for brand reference:
 - Espresso: Rich, bold single or double shot from our house blend
@@ -25,33 +41,52 @@ Ingredients: ${ingredients}${vibe ? `\nVibe: ${vibe}` : ''}
 
 Reply with only the description. No labels, no quotes, no extra formatting.`;
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': process.env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 120,
-      messages: [{ role: 'user', content: prompt }],
-    }),
-  });
+    // 3. Call the Anthropic API
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 120,
+        messages: [{ role: 'user', content: prompt }],
+      }),
+    });
 
-  if (!response.ok) {
+    // 4. If Anthropic returns an error status, log the raw body and surface it
+    if (!response.ok) {
+      const rawError = await response.text();
+      console.error(
+        `generate-description: Anthropic returned ${response.status} ${response.statusText} —`,
+        rawError
+      );
+      return {
+        statusCode: 502,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          error: `Anthropic API error (${response.status}): ${rawError}`,
+        }),
+      };
+    }
+
+    // 5. Parse and return the description
+    const data = await response.json();
+    const description = data.content[0].text.trim();
+
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ description }),
+    };
+  } catch (err) {
+    console.error('generate-description: unexpected error —', err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to generate description.' }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: err.message || 'Unexpected server error.' }),
     };
   }
-
-  const data = await response.json();
-  const description = data.content[0].text.trim();
-
-  return {
-    statusCode: 200,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ description }),
-  };
 };
