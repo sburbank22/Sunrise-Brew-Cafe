@@ -1321,3 +1321,41 @@ footer {
   color: #b91c1c;
   border-left: 3px solid #b91c1c;
 }
+
+/* Coffee Quote */
+.quote-box {
+  background-color: var(--text-light);
+  border-radius: 8px;
+  padding: 2rem 2.5rem;
+  box-shadow: var(--shadow);
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+  border-left: 4px solid var(--primary-color);
+  transition: var(--transition);
+}
+
+.quote-box--loading .quote-text {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.quote-box--loaded .quote-text {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
+
+.quote-box--error .quote-text {
+  color: #b91c1c;
+  font-style: italic;
+}
+
+.quote-author {
+  color: var(--primary-dark);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}

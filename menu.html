@@ -260,6 +260,21 @@
         </div>
       </div>
     </section>
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Coffee Quote</h2>
+          <p>A little inspiration to go with your cup</p>
+        </div>
+        <div class="quote-box" id="quote-box" aria-live="polite">
+          <p id="quote-text" class="quote-text">Loading your quote…</p>
+          <p id="quote-author" class="quote-author"></p>
+        </div>
+        <div style="text-align:center; margin-top:1.5rem;">
+          <button class="btn btn-primary" onclick="fetchQuote()">New Quote</button>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -293,6 +308,31 @@
   </footer>
 
   <script>
+    async function fetchQuote() {
+      const box    = document.getElementById('quote-box');
+      const text   = document.getElementById('quote-text');
+      const author = document.getElementById('quote-author');
+
+      box.className   = 'quote-box quote-box--loading';
+      text.textContent  = 'Loading your quote…';
+      author.textContent = '';
+
+      try {
+        const res  = await fetch('https://api.quotable.io/random');
+        if (!res.ok) throw new Error('Request failed');
+        const data = await res.json();
+        box.className      = 'quote-box quote-box--loaded';
+        text.textContent   = '\u201C' + data.content + '\u201D';
+        author.textContent = '\u2014 ' + data.author;
+      } catch (err) {
+        box.className      = 'quote-box quote-box--error';
+        text.textContent   = 'Could not load a quote right now. Please try again.';
+        author.textContent = '';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchQuote);
+
     function toggleNav() {
       document.getElementById('nav-menu').classList.toggle('active');
     }
