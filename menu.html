@@ -234,6 +234,32 @@
         </div>
       </div>
     </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>AI Menu Description Generator</h2>
+          <p>Dreaming up a new drink? Enter the details and our AI will write a Sunrise Brew-style description for it.</p>
+        </div>
+        <div class="ai-generator">
+          <form id="ai-form" onsubmit="generateDescription(event)">
+            <div class="form-group">
+              <label for="drink-name">Drink Name *</label>
+              <input type="text" id="drink-name" placeholder="e.g. Lavender Honey Latte" required>
+            </div>
+            <div class="form-group">
+              <label for="ingredients">Ingredients *</label>
+              <textarea id="ingredients" placeholder="e.g. espresso, steamed oat milk, lavender syrup, raw honey" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="vibe">Vibe <span style="font-weight:400; color:var(--text-muted)">(optional)</span></label>
+              <input type="text" id="vibe" placeholder="e.g. cozy, bright and refreshing, indulgent">
+            </div>
+            <button type="submit" class="btn btn-primary" id="ai-submit">Generate Description</button>
+          </form>
+          <div id="ai-output" class="ai-output" role="status" aria-live="polite" hidden></div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -269,6 +295,37 @@
   <script>
     function toggleNav() {
       document.getElementById('nav-menu').classList.toggle('active');
+    }
+
+    async function generateDescription(event) {
+      event.preventDefault();
+      const output = document.getElementById('ai-output');
+      const btn    = document.getElementById('ai-submit');
+      const drinkName   = document.getElementById('drink-name').value.trim();
+      const ingredients = document.getElementById('ingredients').value.trim();
+      const vibe        = document.getElementById('vibe').value.trim();
+
+      output.hidden    = false;
+      output.className = 'ai-output ai-output--loading';
+      output.textContent = 'Crafting your description…';
+      btn.disabled = true;
+
+      try {
+        const res  = await fetch('/.netlify/functions/generate-description', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ drinkName, ingredients, vibe }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+        output.className   = 'ai-output ai-output--success';
+        output.textContent = data.description;
+      } catch (err) {
+        output.className   = 'ai-output ai-output--error';
+        output.textContent = 'Sorry, we couldn\'t generate a description right now. Please try again.';
+      } finally {
+        btn.disabled = false;
+      }
     }
   </script>
 </body>

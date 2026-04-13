@@ -32,7 +32,10 @@
       <div class="hero-content">
         <h1>Wake Up to Something Wonderful</h1>
         <p>Handcrafted coffee, fresh pastries, and a warm atmosphere to start your day right. Every cup tells a story of carefully sourced beans and passionate baristas.</p>
-        <a href="menu.html" class="btn btn-primary">View Our Menu</a>
+        <div class="hero-buttons">
+          <a href="menu.html" class="btn btn-primary">View Our Menu</a>
+          <button class="btn btn-secondary" id="modal-trigger" onclick="openModal('special-modal')">Today's Special</button>
+        </div>
       </div>
     </section>
 
@@ -119,9 +122,129 @@
     </div>
   </footer>
 
+  <!-- Modal: Today's Special -->
+  <div class="modal-overlay" id="special-modal-overlay" onclick="handleOverlayClick(event, 'special-modal')">
+    <div
+      class="modal"
+      id="special-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="special-modal-title"
+      aria-describedby="special-modal-desc"
+      tabindex="-1"
+    >
+      <div class="modal-header">
+        <h2 class="modal-title" id="special-modal-title">Today's Special</h2>
+        <button class="modal-close" aria-label="Close dialog" onclick="closeModal('special-modal')">&#x2715;</button>
+      </div>
+      <div class="modal-body">
+        <p id="special-modal-desc">Treat yourself to today's featured pairing — available all day while supplies last.</p>
+        <div class="modal-special-item">
+          <div class="card-icon">&#x2615;</div>
+          <div>
+            <h3>Honey Oat Latte + Blueberry Scone</h3>
+            <p>A smooth espresso with steamed oat milk and a touch of raw honey, paired with our freshly baked blueberry scone.</p>
+            <strong class="modal-price">$9.50 &mdash; save $2</strong>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="menu.html" class="btn btn-primary" onclick="closeModal('special-modal')">See Full Menu</a>
+        <button class="btn btn-secondary" onclick="closeModal('special-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     function toggleNav() {
       document.getElementById('nav-menu').classList.toggle('active');
+    }
+
+    // --- Modal ---
+    const _modalTriggers = {};
+    const _modalHandlers = {};
+    const FOCUSABLE = 'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])';
+
+    function openModal(modalId) {
+      const overlay = document.getElementById(modalId + '-overlay');
+      const modal   = document.getElementById(modalId);
+
+      _modalTriggers[modalId] = document.activeElement; // remember trigger for focus return
+      overlay.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+
+      // Defer focus until after the visibility CSS transition has applied —
+      // elements with visibility:hidden cannot receive focus, so calling focus()
+      // immediately after adding .is-open silently fails.
+      requestAnimationFrame(function () {
+        var focusable = modal.querySelectorAll(FOCUSABLE);
+        (focusable.length ? focusable[0] : modal).focus();
+      });
+
+      _trapFocus(modal, modalId);
+    }
+
+    function closeModal(modalId) {
+      const overlay = document.getElementById(modalId + '-overlay');
+      overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+
+      // Remove the document-level keydown listener for this modal
+      if (_modalHandlers[modalId]) {
+        document.removeEventListener('keydown', _modalHandlers[modalId]);
+        delete _modalHandlers[modalId];
+      }
+
+      if (_modalTriggers[modalId]) {
+        _modalTriggers[modalId].focus(); // return focus to the button that opened it
+        delete _modalTriggers[modalId];
+      }
+    }
+
+    function handleOverlayClick(event, modalId) {
+      if (event.target === event.currentTarget) { // backdrop click only, not modal itself
+        closeModal(modalId);
+      }
+    }
+
+    function _trapFocus(modal, modalId) {
+      // Listen on document, not the modal element. The previous modal-element listener
+      // never fired because modal.focus() was silently failing (visibility:hidden),
+      // so focus never landed inside the modal for events to bubble from.
+      function handler(e) {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          closeModal(modalId);
+          return;
+        }
+
+        if (e.key === 'Tab') {
+          var focusable = Array.from(modal.querySelectorAll(FOCUSABLE));
+          if (!focusable.length) return;
+          var first = focusable[0];
+          var last  = focusable[focusable.length - 1];
+
+          // If focus has somehow escaped the modal, pull it back in
+          if (!modal.contains(document.activeElement)) {
+            e.preventDefault();
+            (e.shiftKey ? last : first).focus();
+            return;
+          }
+
+          if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+          } else {
+            if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+          }
+        }
+      }
+
+      // Clean up any previous handler before adding a new one
+      if (_modalHandlers[modalId]) {
+        document.removeEventListener('keydown', _modalHandlers[modalId]);
+      }
+      _modalHandlers[modalId] = handler;
+      document.addEventListener('keydown', handler);
     }
   </script>
 </body>
