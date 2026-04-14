@@ -27,7 +27,7 @@ The Coffee Quote feature uses a second API (ZenQuotes) to fetch a random quote. 
 ## How to Run Locally
 
 1. Clone this repository:
-   git clone https://github.com/your-username/sunrise-brew-cafe.git
+   git clone https://github.com/sburbank22/sunrise-brew-cafe.git
 
 2. Navigate into the project folder:
    cd sunrise-brew-cafe
